@@ -1,24 +1,110 @@
-//
-//  ContentView.swift
-//  StepTrackerApp
-//
-//  Created by 刘阳 on 2024/7/31.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+    @StateObject private var bluetoothManager = BluetoothManager()
+    @StateObject private var weekStreakViewModel = WeekStreakViewModel()
+    @State private var isDeviceConnected: Bool = false
+    @State private var painLevel: Double = 5.0
 
-#Preview {
-    ContentView()
+    var body: some View {
+        NavigationView {
+            ZStack {
+                Color.white.edgesIgnoringSafeArea(.all)
+
+                VStack(spacing: 30) {
+                    if bluetoothManager.isConnected {
+                        WeekStreakView(viewModel: weekStreakViewModel)
+                        
+                        ZStack {
+                            Circle()
+                                .stroke(Color.yellow, lineWidth: 15)
+                                .frame(width: 210, height: 210)
+
+                            VStack {
+                                Image(systemName: "figure.walk")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50)
+                                    .foregroundColor(.green)
+                                Text("\(bluetoothManager.stepCounter.stepCount)")
+                                    .font(.system(size: 72, weight: .bold))
+                                    .foregroundColor(.black)
+                                Text("Steps")
+                                    .font(.system(size: 24, weight: .semibold))
+                                    .foregroundColor(.gray)
+                            }
+                        }
+
+                        HStack(spacing: 50) {
+                            VStack(spacing: 5) {
+                                Image(systemName: "flame.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(.orange)
+                                Text("\(Int(bluetoothManager.stepCounter.totalCaloriesBurned))")
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundColor(.black)
+                                Text("Cal")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(.gray)
+                            }
+                            VStack(spacing: 5) {
+                                Image(systemName: "mappin.and.ellipse")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(.blue)
+                                Text(String(format: "%.2f", bluetoothManager.stepCounter.distance))
+                                    .font(.system(size: 24, weight: .bold))
+                                    .foregroundColor(.black)
+                                Text("mile")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .padding(.vertical, 20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(15)
+                        
+                        PainLevelView(painLevel: $painLevel)
+
+                        Button(action: {
+                            bluetoothManager.disconnect()
+                            isDeviceConnected = false
+                        }) {
+                            Text("Disconnect Device")
+                                .font(.system(size: 18, weight: .semibold))
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.red)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .shadow(radius: 5)
+                    } else {
+                        Button(action: {
+                            bluetoothManager.connect()
+                            isDeviceConnected = true
+                        }) {
+                            Text("Connect Device")
+                                .font(.system(size: 18, weight: .semibold))
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .shadow(radius: 5)
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Smart Insole System")
+            .onAppear {
+                bluetoothManager.checkBluetoothState()
+            }
+        }
+    }
 }

@@ -14,6 +14,13 @@
 		CD15C9A32C5A78B80082700B /* StepTrackerAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD15C9A22C5A78B80082700B /* StepTrackerAppTests.swift */; };
 		CD15C9AD2C5A78B80082700B /* StepTrackerAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD15C9AC2C5A78B80082700B /* StepTrackerAppUITests.swift */; };
 		CD15C9AF2C5A78B80082700B /* StepTrackerAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD15C9AE2C5A78B80082700B /* StepTrackerAppUITestsLaunchTests.swift */; };
+		CD15C9BC2C5A79160082700B /* StepTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD15C9BB2C5A79150082700B /* StepTracker.swift */; };
+		CD15C9BE2C5A79E30082700B /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD15C9BD2C5A79E30082700B /* BluetoothManager.swift */; };
+		CD15C9C12C5A7DCD0082700B /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD15C9C02C5A7DCD0082700B /* ChartView.swift */; };
+		CD73885E2C7FDADD00E149C5 /* WeekStreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73885D2C7FDADD00E149C5 /* WeekStreak.swift */; };
+		CD7388602C7FE0FE00E149C5 /* PainLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD73885F2C7FE0FE00E149C5 /* PainLevelView.swift */; };
+		CDD3358E2C626F5A00B8323E /* CBManagerState+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD3358D2C626F5A00B8323E /* CBManagerState+Description.swift */; };
+		CDD335912C762BD500B8323E /* StepCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD335902C762BD500B8323E /* StepCounter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +51,14 @@
 		CD15C9A82C5A78B80082700B /* StepTrackerAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StepTrackerAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD15C9AC2C5A78B80082700B /* StepTrackerAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTrackerAppUITests.swift; sourceTree = "<group>"; };
 		CD15C9AE2C5A78B80082700B /* StepTrackerAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTrackerAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CD15C9BB2C5A79150082700B /* StepTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracker.swift; sourceTree = "<group>"; };
+		CD15C9BD2C5A79E30082700B /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		CD15C9C02C5A7DCD0082700B /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		CD73885D2C7FDADD00E149C5 /* WeekStreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekStreak.swift; sourceTree = "<group>"; };
+		CD73885F2C7FE0FE00E149C5 /* PainLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PainLevelView.swift; sourceTree = "<group>"; };
+		CDD3358D2C626F5A00B8323E /* CBManagerState+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CBManagerState+Description.swift"; sourceTree = "<group>"; };
+		CDD3358F2C75FEED00B8323E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CDD335902C762BD500B8323E /* StepCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCounter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,10 +109,18 @@
 		CD15C9902C5A78B60082700B /* StepTrackerApp */ = {
 			isa = PBXGroup;
 			children = (
+				CDD3358F2C75FEED00B8323E /* Info.plist */,
 				CD15C9912C5A78B60082700B /* StepTrackerAppApp.swift */,
 				CD15C9932C5A78B60082700B /* ContentView.swift */,
+				CDD335902C762BD500B8323E /* StepCounter.swift */,
+				CDD3358D2C626F5A00B8323E /* CBManagerState+Description.swift */,
+				CD15C9C02C5A7DCD0082700B /* ChartView.swift */,
+				CD15C9BD2C5A79E30082700B /* BluetoothManager.swift */,
+				CD15C9BB2C5A79150082700B /* StepTracker.swift */,
 				CD15C9952C5A78B80082700B /* Assets.xcassets */,
 				CD15C9972C5A78B80082700B /* Preview Content */,
+				CD73885D2C7FDADD00E149C5 /* WeekStreak.swift */,
+				CD73885F2C7FE0FE00E149C5 /* PainLevelView.swift */,
 			);
 			path = StepTrackerApp;
 			sourceTree = "<group>";
@@ -143,6 +166,8 @@
 			dependencies = (
 			);
 			name = StepTrackerApp;
+			packageProductDependencies = (
+			);
 			productName = StepTrackerApp;
 			productReference = CD15C98E2C5A78B60082700B /* StepTrackerApp.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +240,10 @@
 				Base,
 			);
 			mainGroup = CD15C9852C5A78B60082700B;
+			packageReferences = (
+				CD15C9BF2C5A7D950082700B /* XCRemoteSwiftPackageReference "Charts" */,
+				CD15C9C42C5BCFB30082700B /* XCRemoteSwiftPackageReference "ORSSerialPort" */,
+			);
 			productRefGroup = CD15C98F2C5A78B60082700B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -258,7 +287,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD15C9942C5A78B60082700B /* ContentView.swift in Sources */,
+				CD73885E2C7FDADD00E149C5 /* WeekStreak.swift in Sources */,
 				CD15C9922C5A78B60082700B /* StepTrackerAppApp.swift in Sources */,
+				CD15C9BE2C5A79E30082700B /* BluetoothManager.swift in Sources */,
+				CD15C9C12C5A7DCD0082700B /* ChartView.swift in Sources */,
+				CD7388602C7FE0FE00E149C5 /* PainLevelView.swift in Sources */,
+				CDD3358E2C626F5A00B8323E /* CBManagerState+Description.swift in Sources */,
+				CDD335912C762BD500B8323E /* StepCounter.swift in Sources */,
+				CD15C9BC2C5A79160082700B /* StepTracker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +461,10 @@
 				DEVELOPMENT_TEAM = MNW5LXL267;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StepTrackerApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,6 +494,10 @@
 				DEVELOPMENT_TEAM = MNW5LXL267;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StepTrackerApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -588,6 +632,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CD15C9BF2C5A7D950082700B /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+		CD15C9C42C5BCFB30082700B /* XCRemoteSwiftPackageReference "ORSSerialPort" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/armadsen/ORSSerialPort.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = CD15C9862C5A78B60082700B /* Project object */;
 }

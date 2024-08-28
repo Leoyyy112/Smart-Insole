@@ -1,0 +1,24 @@
+{
+  "originHash" : "d8405b87673dcd2259dec106edfd6bc20d2aca352be6fd4241bf5b670a22a370",
+  "pins" : [
+    {
+      "identity" : "charts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielgindi/Charts.git",
+      "state" : {
+        "revision" : "dd9c72e3d7e751e769971092a6bd72d39198ae63",
+        "version" : "5.1.0"
+      }
+    },
+    {
+      "identity" : "orsserialport",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/armadsen/ORSSerialPort.git",
+      "state" : {
+        "revision" : "58a8cc454304e22280f184c2d2e25ecb3d5a74c5",
+        "version" : "2.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}
