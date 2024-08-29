@@ -9,7 +9,17 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.white.edgesIgnoringSafeArea(.all)
+                if isDeviceConnected {
+                    // 连接状态下的背景颜色
+                    Color.white
+                        .edgesIgnoringSafeArea(.all)
+                } else {
+                    // 未连接状态下的背景图片
+                    Image("background")
+                        .resizable()
+                        .scaledToFill()
+                        .edgesIgnoringSafeArea(.all)
+                }
 
                 VStack(spacing: 30) {
                     if bluetoothManager.isConnected {
@@ -84,24 +94,27 @@ struct ContentView: View {
                         }
                         .shadow(radius: 5)
                     } else {
+                        Spacer()
+
                         Button(action: {
                             bluetoothManager.connect()
                             isDeviceConnected = true
                         }) {
-                            Text("Connect Device")
+                            Text("Connect")
                                 .font(.system(size: 18, weight: .semibold))
                                 .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
+                                .frame(width: 180, height: 180)
+                                .background(Color.yellow)
                                 .foregroundColor(.white)
-                                .cornerRadius(10)
+                                .clipShape(Circle())
                         }
                         .shadow(radius: 5)
+
+                        Spacer()
                     }
                 }
                 .padding()
             }
-            .navigationTitle("Smart Insole System")
             .onAppear {
                 bluetoothManager.checkBluetoothState()
             }
