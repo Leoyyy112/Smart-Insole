@@ -10,17 +10,14 @@ struct ContentView: View {
         NavigationView {
             ZStack {
                 if isDeviceConnected {
-                    // 连接状态下的背景颜色
                     Color.white
                         .edgesIgnoringSafeArea(.all)
                 } else {
-                    // 未连接状态下的背景图片
                     Image("background")
                         .resizable()
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)
                 }
-
                 VStack(spacing: 30) {
                     if bluetoothManager.isConnected {
                         WeekStreakView(viewModel: weekStreakViewModel)
@@ -29,7 +26,6 @@ struct ContentView: View {
                             Circle()
                                 .stroke(Color.yellow, lineWidth: 15)
                                 .frame(width: 210, height: 210)
-
                             VStack {
                                 Image(systemName: "figure.walk")
                                     .resizable()
@@ -44,7 +40,6 @@ struct ContentView: View {
                                     .foregroundColor(.gray)
                             }
                         }
-
                         HStack(spacing: 50) {
                             VStack(spacing: 5) {
                                 Image(systemName: "flame.fill")
