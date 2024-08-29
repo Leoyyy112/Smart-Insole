@@ -16,9 +16,9 @@ class StepCounter: ObservableObject {
     private var lastStepTimestamp: Double = 0
     private let minStepInterval: Double = 0.4
     private let gravity: Double = 9.81
-    private let gyroThreshold: Double = 0.1 // 陀螺仪阈值
-    private let stepThresholdCount = 2 // 连续检测到步伐的次数阈值
-    private var consecutiveSteps = 0 // 用于累计连续检测到的步数
+    private let gyroThreshold: Double = 0.1 // Gyroscope Threshold
+    private let stepThresholdCount = 2 // Threshold for the number of consecutive pace detections
+    private var consecutiveSteps = 0 // Used to totalise the number of consecutively detected steps
     private var lastStepTime: Double = 0
     private var lastCalorieUpdateTime: Double = 0
     private let calorieUpdateInterval: Double = 30.0
@@ -36,9 +36,7 @@ class StepCounter: ObservableObject {
             dataBuffer.removeFirst()
         }
         
-        // 只有当数据缓冲区满了才进行计算
         if dataBuffer.count == windowSize {
-            // 移除异常值
             dataBuffer = removeOutliers(dataBuffer)
             updateStepCount()
             updateDistance()
@@ -67,19 +65,14 @@ class StepCounter: ObservableObject {
     }
     
     private func updateStepCount() {
-            // 如果设备处于静止状态，则不计步
             if isDeviceStationary() {
                 return
             }
             
             let accelMagnitudes = dataBuffer.map { sqrt(pow($0.accelX, 2) + pow($0.accelY, 2) + pow($0.accelZ - gravity, 2)) }
             print("Acceleration magnitudes: \(accelMagnitudes)")
-            
-            // 增大平滑窗口大小
             let smoothedMagnitudes = medianFilter(signal: accelMagnitudes, windowSize: 7)
             print("Smoothed magnitudes: \(smoothedMagnitudes)")
-            
-            // 双重阈值检测，初始较高阈值
             let initialThreshold = 2.2
             if smoothedMagnitudes.max() ?? 0 < initialThreshold {
                 return
@@ -87,15 +80,13 @@ class StepCounter: ObservableObject {
             
             let detectedSteps = detectStepsUsingAdaptiveThreshold(signal: smoothedMagnitudes, threshold: 2.2, influence: 0.5)
             print("Detected steps: \(detectedSteps)")
-        
-            // 使用陀螺仪数据进一步过滤检测到的步伐
             let validSteps = filterStepsWithGyro(detectedSteps: detectedSteps)
                 
             
             if validSteps > 0 && (dataBuffer.last?.timestamp ?? 0) - lastStepTime >= minStepInterval {
                         consecutiveSteps += 1
                         if consecutiveSteps >= stepThresholdCount {
-                            stepCount += 1 // 每次只增加一步
+                            stepCount += 1
                             lastStepTime = dataBuffer.last?.timestamp ?? 0
                             consecutiveSteps = 0
                         }
@@ -127,20 +118,18 @@ class StepCounter: ObservableObject {
     }
     
     private func detectStepsUsingAdaptiveThreshold(signal: [Double], threshold: Double = 2.2, influence: Double = 0.5) -> Int {
-        let lag = max(1, min(30, signal.count / 2))  // 动态调整 lag 值，且至少为 1
+        let lag = max(1, min(30, signal.count / 2))
         
         var steps = 0
         var avgFilter = Array(repeating: 0.0, count: signal.count)
         var stdFilter = Array(repeating: 0.0, count: signal.count)
         var filteredSignal = signal
 
-        // 确保 lag 的合法性
+        
         guard signal.count >= lag else {
             print("Error: Signal length is less than lag value.")
             return 0
         }
-
-        // 初始化前 lag 个元素
         let initialSegment = signal[..<lag]
         avgFilter[lag - 1] = initialSegment.reduce(0, +) / Double(lag)
         stdFilter[lag - 1] = sqrt(initialSegment.map { pow($0 - avgFilter[lag - 1], 2) }.reduce(0, +) / Double(lag))
@@ -161,12 +150,9 @@ class StepCounter: ObservableObject {
         
         return steps
     }
-
-    // 新增的陀螺仪数据辅助过滤函数
     private func filterStepsWithGyro(detectedSteps: Int) -> Int {
         let gyroMagnitudes = dataBuffer.map { sqrt(pow($0.gyroX, 2) + pow($0.gyroY, 2) + pow($0.gyroZ, 2)) }
         
-        // 设定一个陀螺仪阈值，过滤掉合成陀螺仪幅值较小的检测结果
         let gyroStepThreshold = 0.15
         let validSteps = gyroMagnitudes.filter { $0 > gyroStepThreshold }.count
         
@@ -174,8 +160,8 @@ class StepCounter: ObservableObject {
     }
 
     private func updateDistance() {
-        let stepLength = userHeight * 0.415 / 100 // 转换为米
-        distance = Double(stepCount) * stepLength / 1000 // 转换为千米
+        let stepLength = userHeight * 0.415 / 100
+        distance = Double(stepCount) * stepLength / 1000
     }
     
     private func updateCaloriesBurned() {
@@ -183,21 +169,19 @@ class StepCounter: ObservableObject {
                         return
                     }
         
-            // 如果是第一次更新，初始化 lastCalorieUpdateTime
             if lastCalorieUpdateTime == 0 {
                 lastCalorieUpdateTime = currentTimestamp
                 return
             }
-        
-            // 检查是否已经达到最小更新间隔
+
             if currentTimestamp - lastCalorieUpdateTime < calorieUpdateInterval {
                 return
             }
             let durationInHours = (currentTimestamp - lastCalorieUpdateTime) / 3600.0 // 转换为小时
-            // 确保计算时间间隔为正
+
             guard durationInHours > 0 else { return }
-            // 调整每步的卡路里计算
-            let caloriesPerStep = 0.05 // 每步约 0.05 Kcal，考虑步幅和运动强度
+
+            let caloriesPerStep = 0.05 //
             let currentCaloriesBurned = Double(stepCount) * caloriesPerStep
             //let currentCaloriesBurned = caloriesPerHour * durationInHours
             
@@ -212,17 +196,17 @@ class StepCounter: ObservableObject {
             let gyroMagnitudes = dataBuffer.map { sqrt(pow($0.gyroX, 2) + pow($0.gyroY, 2) + pow($0.gyroZ, 2)) }
             let maxGyroMagnitude = gyroMagnitudes.max() ?? 0.0
             
-            // 更精确的 MET 值计算
+            
             if maxGyroMagnitude < 0.1 {
-                return 1.0 // 静止
+                return 1.0 //
             } else if maxGyroMagnitude < 0.5 {
-                return 2.0 // 缓慢行走
+                return 2.0 //
             } else if maxGyroMagnitude < 1.0 {
-                return 3.0 // 正常行走
+                return 3.0 //
             } else if maxGyroMagnitude < 2.0 {
-                return 4.0 // 快速行走
+                return 4.0 //
             } else {
-                return 5.0 // 跑步
+                return 5.0 //
             }
         }
 
@@ -237,17 +221,17 @@ class StepCounter: ObservableObject {
         }
         
         let durationInSeconds = lastTimestamp - firstTimestamp
-        let durationInMinutes = durationInSeconds / 60.0 // 转换为分钟
+        let durationInMinutes = durationInSeconds / 60.0 //
         
         if durationInMinutes > 0 {
             stepFrequency = Double(stepCount) / durationInMinutes
         } else {
-            stepFrequency = 0 // 避免除以零
+            stepFrequency = 0 //
         }
     }
 }
 
-// 扩展 Array，用于计算分位数
+// 
 extension Array where Element: Comparable {
     func quantile(_ quantile: Double) -> Element {
         let sortedArray = self.sorted()

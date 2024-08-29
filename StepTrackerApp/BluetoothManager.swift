@@ -25,17 +25,22 @@ class BluetoothManager: NSObject, ObservableObject {
     func startScanning() {
         print("Start scanning for all devices")
         centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
-        // 设置30秒超时
+        // 
         scanTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: false) { _ in
             self.centralManager.stopScan()
             print("Scan timeout. No devices found.")
-            // 可以在这里添加重试逻辑
+            //
         }
     }
     
     func connect() {
         print("Attempting to connect")
-        startScanning()
+        if bluetoothState == .poweredOn {
+            startScanning()
+        } else {
+            print("Bluetooth is not powered on.")
+            //
+        }
     }
     
     func disconnect() {
@@ -55,9 +60,9 @@ extension BluetoothManager: CBCentralManagerDelegate {
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         bluetoothState = central.state
         print("Central manager did update state: \(bluetoothState)")
-        if central.state == .poweredOn {
-            startScanning()
-        }
+        //if central.state == .poweredOn {
+            //startScanning()
+        //}
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
