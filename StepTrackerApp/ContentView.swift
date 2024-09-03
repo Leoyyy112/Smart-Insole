@@ -20,7 +20,7 @@ struct ContentView: View {
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)
                 }
-                VStack(spacing: 30) {
+                VStack(spacing: 20) {
                     if bluetoothManager.isConnected {
                         WeekStreakView(viewModel: weekStreakViewModel)
                         
@@ -34,9 +34,11 @@ struct ContentView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 50, height: 50)
                                     .foregroundColor(.green)
+                                    .offset(y: 10)
                                 Text("\(bluetoothManager.stepCounter.stepCount)")
                                     .font(.system(size: 72, weight: .bold))
                                     .foregroundColor(.black)
+                                    .offset(y: -10)
                                 Text("Steps")
                                     .font(.system(size: 24, weight: .semibold))
                                     .foregroundColor(.gray)
