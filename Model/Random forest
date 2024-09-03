@@ -1,0 +1,42 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split, StratifiedKFold
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+
+#Model Training
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.3, random_state=42)
+model = RandomForestClassifier(n_estimators=10, random_state=42)
+
+# Lists to store accuracy results
+train_accuracies = []
+val_accuracies = []
+# Stratified KFold for creating different training subset sizes
+skf = StratifiedKFold(n_splits=5)
+for train_index, _ in skf.split(X_train, y_train):
+    X_train_subset = X_train.iloc[train_index]
+    y_train_subset = y_train.iloc[train_index]
+    
+    # Train the model on the subset
+    model.fit(X_train_subset, y_train_subset)
+    
+    # Calculate training accuracy
+    y_train_pred = model.predict(X_train_subset)
+    train_accuracy = accuracy_score(y_train_subset, y_train_pred)
+    train_accuracies.append(train_accuracy)
+    
+    # Calculate validation accuracy
+    y_val_pred = model.predict(X_val)
+    val_accuracy = accuracy_score(y_val, y_val_pred)
+    val_accuracies.append(val_accuracy)
+
+# Plot the training and validation accuracy
+plt.figure(figsize=(10, 6))
+plt.plot(range(1, len(train_accuracies) + 1), train_accuracies, label='Training Accuracy', marker='o')
+plt.plot(range(1, len(val_accuracies) + 1), val_accuracies, label='Validation Accuracy', marker='o')
+plt.xlabel('Training Subset Size (Fold)')
+plt.ylabel('Accuracy')
+plt.title('Training vs. Validation Accuracy')
+plt.legend()
+plt.grid(True)
+plt.show()
